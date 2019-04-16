@@ -18,6 +18,9 @@ var readline = require('readline');				// подключаем чтение ст
 var fs = require('fs');										// подключаем работу с файловой системой
 
 
+
+//Задание 1
+
 var rl = readline.createInterface({
 	input: process.stdin,                   // ввод в поток
 	output: process.stdout           				// вывод из потока
@@ -52,18 +55,23 @@ rl.question('Загадайте \"орёл\" или \"решка\": ', function 
 	}
 
 
-	fs.exists('result.txt', function (err) {			// проверяем на наличие соответствующего файла
+	fs.exists('/result.txt', function (err) {			// проверяем на наличие соответствующего файла
 		try {
 			throw new Error('Файл не найден');				// если файла нет, ловим ошибку и выдаём сообщение об ошибке
 		} catch(err) {
-			console.log('Ошибка ' + err);
+			console.log('Ошибка ->' + err);
 		}
 	});
 
 
-	fs.appendFile('result.txt', totalResult(computer, user));		// в файл result.txt дописываем ф-ией totalResult результат
+	fs.appendFile('result.txt', totalResult(computer, user), 'utf8');		// в файл result.txt дописываем ф-ией totalResult результат
 
 	rl.close();																		 // закрываем поток чтоб после ввода выйти в командную строку
 
 });
+
+
+
+// Задание 2
+
 

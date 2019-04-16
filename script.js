@@ -18,7 +18,7 @@ var readline = require('readline');				// подключаем чтение ст
 var fs = require('fs');										// подключаем работу с файловой системой
 
 
-
+/*
 //Задание 1
 
 var rl = readline.createInterface({
@@ -55,7 +55,7 @@ rl.question('Загадайте \"орёл\" или \"решка\": ', function 
 	}
 
 
-	fs.exists('/result.txt', function (err) {			// проверяем на наличие соответствующего файла
+	fs.open('result.txt', 'wx', function (err) {			// проверяем на наличие соответствующего файла
 		try {
 			throw new Error('Файл не найден');				// если файла нет, ловим ошибку и выдаём сообщение об ошибке
 		} catch(err) {
@@ -69,8 +69,17 @@ rl.question('Загадайте \"орёл\" или \"решка\": ', function 
 	rl.close();																		 // закрываем поток чтоб после ввода выйти в командную строку
 
 });
+*/
 
-
+fs.readFile('result.txt', 'utf8', function (err, data) {
+	if (err) {
+		throw new Error('Не возможно прочитать файл');
+	} else {
+		for (var i = 0; i < data.length; i++) {
+			console.log(data[i]);
+		}
+	}
+});
 
 // Задание 2
 

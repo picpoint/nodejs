@@ -18,9 +18,9 @@ var readline = require('readline');				// подключаем чтение ст
 var fs = require('fs');										// подключаем работу с файловой системой
 
 
-/*
-//Задание 1
 
+
+//Задание 1
 var rl = readline.createInterface({
 	input: process.stdin,                   // ввод в поток
 	output: process.stdout           				// вывод из потока
@@ -69,18 +69,52 @@ rl.question('Загадайте \"орёл\" или \"решка\": ', function 
 	rl.close();																		 // закрываем поток чтоб после ввода выйти в командную строку
 
 });
-*/
 
+
+
+
+// Задание 2
 fs.readFile('result.txt', 'utf8', function (err, data) {
+	var mass = [];
+	var comp = 0;
+	var user = 0;
+
 	if (err) {
 		throw new Error('Не возможно прочитать файл');
 	} else {
+
 		for (var i = 0; i < data.length; i++) {
-			console.log(data[i]);
+			if (!isNaN(data[i]) && data[i] != ' ' && data[i] != '\n') {
+				mass.push(+data[i]);
+			}
 		}
+		//console.log(mass);
+
+		for (var j = 0; j < mass.length; j++) {
+			if (j % 2 == 0) {
+				comp += mass[j];
+			} else {
+				user += mass[j]
+			}
+		}
+		console.log('Общее количество партий : ' + j/2);
+		console.log('Количество выигранных партий computer -> ' + comp);
+		console.log('Количество проигранных партий computer -> ' + ((j/2)-comp));
+		console.log('---------------');
+		console.log('Количество выигранных партий user -> ' + user);
+		console.log('Количество проигранных партий user -> ' + (j/2 - user));
+		console.log('---------------');
+		console.log('Соотношение побед и проигрышей');
+
+		console.log('computer -> ', 'Побед: ' + (comp * 100)/j*2 + ' %' );
+		console.log('computer -> ', 'Проигрышей: ' + (100 - (comp * 100)/j*2) + ' %' );
+
+		console.log('user -> ', 'Побед: ' + (user * 100)/j*2 + ' %' );
+		console.log('user -> ', 'Проигрышей: ' + (100 - (user * 100)/j*2) + ' %' );
+
 	}
 });
 
-// Задание 2
+
 
 

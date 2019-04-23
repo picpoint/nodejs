@@ -74,30 +74,28 @@ rl.question('Загадайте \"орёл\" или \"решка\": ', function 
 
 
 // Задание 2
-fs.readFile('result.txt', 'utf8', function (err, data) {
+fs.readFile('result.txt', 'utf8', function (err, data) {  // читаем файл в кодировке utf8
 	var mass = [];
 	var comp = 0;
 	var user = 0;
 
-	if (err) {
+	if (err) {                                              // если ошибка, выводим предупреждение о невозможности прочитать файл
 		throw new Error('Не возможно прочитать файл');
-	} else {
-
-		for (var i = 0; i < data.length; i++) {
-			if (!isNaN(data[i]) && data[i] != ' ' && data[i] != '\n') {
-				mass.push(+data[i]);
+	} else {                                                // иначе производим чтение файла
+		for (var i = 0; i < data.length; i++) {               // пробегаемся по всему файлу
+			if (!isNaN(data[i]) && data[i] != ' ' && data[i] != '\n') {  // если это число и не пробел и не перевод строки
+				mass.push(+data[i]);                                       // пушим в массив с преобразованием из строки в число
 			}
 		}
-		//console.log(mass);
 
-		for (var j = 0; j < mass.length; j++) {
-			if (j % 2 == 0) {
+		for (var j = 0; j < mass.length; j++) {               // пробегаемся по всем значениям
+			if (j % 2 == 0) {                                   // чётные значения присваиваем компьютеру
 				comp += mass[j];
 			} else {
-				user += mass[j]
-			}
+				user += mass[j]                                   // нечётные присваиваем пользователю
+			}                                                   // маленькая приписка, массив начинается с нуля
 		}
-		console.log('Общее количество партий : ' + j/2);
+		console.log('Общее количество партий : ' + j/2);      // комментить не буду, по тексту ясно сто выводится в консоль
 		console.log('Количество выигранных партий computer -> ' + comp);
 		console.log('Количество проигранных партий computer -> ' + ((j/2)-comp));
 		console.log('---------------');
@@ -105,13 +103,10 @@ fs.readFile('result.txt', 'utf8', function (err, data) {
 		console.log('Количество проигранных партий user -> ' + (j/2 - user));
 		console.log('---------------');
 		console.log('Соотношение побед и проигрышей');
-
 		console.log('computer -> ', 'Побед: ' + (comp * 100)/j*2 + ' %' );
 		console.log('computer -> ', 'Проигрышей: ' + (100 - (comp * 100)/j*2) + ' %' );
-
 		console.log('user -> ', 'Побед: ' + (user * 100)/j*2 + ' %' );
 		console.log('user -> ', 'Проигрышей: ' + (100 - (user * 100)/j*2) + ' %' );
-
 	}
 });
 

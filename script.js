@@ -33,27 +33,27 @@ request('https://yandex.ru/', function (error, response, html) {    // дела�
 API: https://translate.yandex.net/api/v1.5/trjson/translate?key={сюда-подставить-ключ}&lang=ru-en
 */
 
-var https = require('https');
-var urlutils = require('url');
-var readline = require('readline');
-var adress = 'https://translate.google.com/?hl=ru&tab=TT';
-var rl = readline.createInterface({
+var https = require('https');                                       // модуль для работы с post/get запросами
+var urlutils = require('url');                                      // модуль для работы с url строкой
+var readline = require('readline');                                 // модуль для работы с вводом/выводом текста
+var adress = 'https://translate.google.com/?hl=ru&tab=TT';          // переменная содержащая адрес для запроса
+var rl = readline.createInterface({                                 // создаёт интерфейс ввода/вывода потоков
 	input: process.stdin,
 	output: process.stdout
 });
 
 
-https.get(adress, function (res) {
-	if (res.statusCode == 200) {
-		rl.question('Введите слово на русском для перевода: ', function (answer) {
-			var params = urlutils.parse(adress, true);
-			delete params.search;
-			params.query = {text: answer};
-			var stringurl = urlutils.format(params);
+https.get(adress, function (res) {                                  // ф-ия получает адрес
+	if (res.statusCode == 200) {                                      // если статус 200, работаем дальше
+		rl.question('Введите слово на русском для перевода: ', function (answer) {  // выводим предложение с вводом текста
+			var params = urlutils.parse(adress, true);                    // парсим адресную строку
+			delete params.search;                                         // удаляем параметр search
+			params.query = {text: answer};                                // в параметры запроса записываем то что мы ввели
+			var stringurl = urlutils.format(params);                      // присваиваем переменной наш собранный url
 			console.log(stringurl);
 		});
 	}
-}).on('error', function (e) {
+}).on('error', function (e) {                                       // если ошибка, выводим сообщение об ошибке
 	console.log('ERROR -> ' + e.message);
 });
 

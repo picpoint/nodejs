@@ -3,6 +3,10 @@ const stdin = process.stdin;
 const stdout = process.stdout;
 
 
+// ф-ия считывания введённого значения пользователя, генерации случайного числа компьютера, записи результата
+// выигрыша/проигрыша в файл
+
+
 function guessNumber() {
 	let comp = 0;
 	let user = 0;
@@ -47,3 +51,42 @@ function guessNumber() {
 }
 
 guessNumber();
+
+
+// ф-ия считывания текстового файла и подсчёта результата побед
+function countWins() {
+	let massresult = [];
+	let str = '';
+	let comp = 0;
+	let user = 0;
+
+	fs.readFile('result.txt', (err, data) => {
+		if (err) {
+			throw new Error(`!!! ERROR !!! ${err.message}`);
+		} else {
+			let arr = data.toString().split('\n');
+
+			for (let i = 0; i < arr.length; i++) {
+				str = arr[i];
+				for (let j = 0; j < str.length; j++) {
+					if (!isNaN(str[j]) && str[j] != ' ' && str[j] != '\n' && str[j] != '\r') {
+						massresult.push(+str[j]);
+					}
+				}
+			}
+
+			for (let x = 0; x < massresult.length; x++) {
+				if (x % 2 !== 0) {
+					comp += massresult[x];
+				} else {
+					user += massresult[x];
+				}
+			}
+
+			console.log(`Результаты: comp - ${comp}  user - ${user}`);
+
+		}
+	});
+}
+
+countWins();

@@ -1,59 +1,54 @@
-var cheerio = require('cheerio');    // подключаем билиотеку для работы выборкой селекторов на странице
-var request = require('request');    // библиотека для работы и исходящими сетевыми запросами
+const cheerio = require('cheerio');
+const request = require('request');
+const bc = require('better-console');
 
-
-/*
-1) Создать программу для получения информации о последних новостях с выбранного вами сайта в
-структурированном виде. Можно добавить открытие полной новости, постраничную навигацию и т.п.
-*/
-
-request('https://yandex.ru/', function (error, response, html) {    // делаем запрос на яндекс
-	if (!error && response.statusCode == 200) {                       // если нет ошибки и ответ статуса 200
-		var blockNews = cheerio.load(html);                             // загружаем весь хтмл страницы
-		blockNews('.news__list').each(function (i, items) {             // ищем блок с классом .news__list и пробегаемся по всем элементам
-			var nws = blockNews(this).find('.list__item').text() + '@';   // ищем класс .list__item и вытягиваем из него текст
-			nws += '\n';                                                  // добавляем перевод строки
-			console.log(i+1 + ' - ' + nws);                               // выводим i-е значение и сам текст
-		})
-	}
-});
-
-
-
+// Дз №1
 
 /*
-2) Создать переводчик слов с английского на русский, который будет обрабатывать входящие GET
-запросы и возвращать ответы, полученные через API Яндекс.Переводчика. Советую реализовать самому,
- вместо использования готовой библиотеки-переводчика (хотя это тоже решение, по факту).
+request('https://www.rbc.ru/', (error, response, html) => {
+	if (!error && response.statusCode == 200) {
+		let $ = cheerio.load(html);
+		let indicators = [];
 
-Ссылка для получения ключа API Яндекс.Переводчика: http://api.yandex.ru/key/form.xml?service=trnsl
- Документация API Переводчика: http://api.yandex.ru/translate/doc/dg/reference/translate.xml
-
- Пример GET запроса к
-API: https://translate.yandex.net/api/v1.5/trjson/translate?key={сюда-подставить-ключ}&lang=ru-en
-*/
-
-var https = require('https');                                       // модуль для работы с post/get запросами
-var urlutils = require('url');                                      // модуль для работы с url строкой
-var readline = require('readline');                                 // модуль для работы с вводом/выводом текста
-var adress = 'https://translate.google.com/?hl=ru&tab=TT';          // переменная содержащая адрес для запроса
-var rl = readline.createInterface({                                 // создаёт интерфейс ввода/вывода потоков
-	input: process.stdin,
-	output: process.stdout
-});
-
-
-https.get(adress, function (res) {                                  // ф-ия получает адрес
-	if (res.statusCode == 200) {                                      // если статус 200, работаем дальше
-		rl.question('Введите слово на русском для перевода: ', function (answer) {  // выводим предложение с вводом текста
-			var params = urlutils.parse(adress, true);                    // парсим адресную строку
-			delete params.search;                                         // удаляем параметр search
-			params.query = {text: answer};                                // в параметры запроса записываем то что мы ввели
-			var stringurl = urlutils.format(params);                      // присваиваем переменной наш собранный url
-			console.log(stringurl);
+		$('.indicators__item').each(function (i, element) {
+			let name = $(this).find('.indicators__name').text().trim();
+			let time = $(this).find('.indicators__date').text().trim();
+			let sell = $(this).find('.indicators__sum').text().trim();
+			let buy = $(this).find('.indicators__change').text().trim();
+			indicators.push({time: time, name: name, sell: sell, buy: buy});
 		});
-	}
-}).on('error', function (e) {                                       // если ошибка, выводим сообщение об ошибке
-	console.log('ERROR -> ' + e.message);
-});
+		bc.table(indicators);
 
+	}
+});
+*/
+
+
+/*
+request('https://yandex.ru/', (error, respose, html)=> {
+	if (!error && respose.statusCode == 200) {
+		let $ = cheerio.load(html);
+		let count = 1;
+		$('.list__item').each(function (i, element) {
+			let nws = $(this).find('.home-link').text();
+			console.log(`Новость № ${count++}  -  ${nws}`);
+		});
+
+	}
+});
+*/
+
+
+/*
+request('https://mail.ru/', (error, response, html) => {
+	if (!error && response.statusCode == 200) {
+		let $ = cheerio.load(html);
+
+		$('.news-item_inline').each(function (i, element) {
+			let ns = $(this).find('.i-inline').text();
+			console.log(ns);
+		});
+
+	}
+});
+*/

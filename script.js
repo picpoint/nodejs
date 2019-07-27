@@ -1,3 +1,4 @@
+const data = require('./datasite/data.js');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -6,22 +7,17 @@ app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.set('view engine', 'hbs');
 app.set('views', 'dist');
-app.use('/contact', (req, res) => {
-  res.render('contact.hbs', {
-    title: 'Мои контакты',
-    email: 'inbox@inbox.ru',
-    phone: ['+79051234567', '+79880886427', '+79280885577'],
-    adress: 'Piter city'
+
+
+app.use('/quotes', (req, res) => {
+  res.render('quotes.hbs', {
+    title: 'Котировки валют',
   });
 });
 app.use('/', (req, res) => {
-  res.send('GENERAL PAGE!');
+  res.send('Main Page! ');
 });
 
-/*
-app.get('/index.html', (req, res) => {
-	res.send('Hello Nodejs ');
-});
-*/
+console.log(data);
 
 app.listen(4000);

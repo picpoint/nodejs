@@ -8,17 +8,16 @@
     <title>{{title}}</title>
 </head>
 <body>
-    <h1>Rfrjqnj ntrcn</h1>
     <h1>{{title}}</h1>
     <p>Email: {{email}}</p>
-    <p>Phones:
-        <ul>
-            {{#each phone}}
-                <li>{{this}}</li>
-            {{/each}}
-        </ul>
-    </p>
-    <p>Adress: {{adress}}</p>
+
+		{{#if dataVisible}}
+			<ul>
+				{{#each data}}
+					<li>{{this}}</li>
+				{{/each}}
+			</ul>
+		{{/if}}
 
 </body>
 </html>
